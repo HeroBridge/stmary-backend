@@ -21,7 +21,7 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const API = process.env.SMOKE_API || 'http://localhost:8080';
+const API = process.env.SMOKE_API || `http://localhost:${process.env.PORT || 8080}`;
 const RUN = Date.now().toString(36);
 const results = [];
 function check(name, ok, detail = '') {
@@ -37,9 +37,13 @@ async function api(path, { method = 'GET', token, body } = {}) {
   return { status: res.status, json: await res.json().catch(() => ({})) };
 }
 
-const db = new pg.Pool({ host: process.env.DB_HOST, user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD, database: process.env.DB_NAME,
-  ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false } });
+const db = new pg.Pool(
+  process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL,
+        ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false } }
+    : { host: process.env.DB_HOST, user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD, database: process.env.DB_NAME,
+        ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false } });
 
 async function main() {
   console.log('\n=== TOLLE LEGE — Augustinian formation community ===\n');
