@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Hero One Eleven",
+    "slug": "hero-one-eleven",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#12123D"
+    },
+    "ios": {
+      "bundleIdentifier": "org.herobridgela.herooneeleven",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Used to show community resources near you on the map."
+      }
+    },
+    "android": {
+      "package": "org.herobridgela.herooneeleven",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_FINE_LOCATION"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F4F4F8"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "primaryColor": "#E43024"
+  }
+}

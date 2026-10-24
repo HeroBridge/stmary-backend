@@ -1,0 +1,32 @@
+# Local development stack: API + PostGIS-enabled Postgres.
+version: "3.9"
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: community
+      POSTGRES_PASSWORD: community
+      POSTGRES_DB: community
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: community
+      DB_PASSWORD: community
+      DB_NAME: community
+      DB_SSL: "false"
+      JWT_SECRET: local-dev-secret
+      PORT: "8080"
+    ports:
+      - "8080:8080"
+    command: sh -c "node src/db/migrate.js && node src/server.js"
+
+volumes:
+  pgdata:

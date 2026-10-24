@@ -1,0 +1,26 @@
+# Render Blueprint — provisions the whole backend in one click.
+# Render reads this file and creates: a Node web service + a Postgres
+# database, with DATABASE_URL already wired between them.
+services:
+  - type: web
+    name: stmary-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run migrate
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: JWT_SECRET
+        generateValue: true          # Render generates a strong random secret
+      - key: DATABASE_URL
+        fromDatabase:
+          name: stmary-db
+          property: connectionString
+      # Bedrock / SES are optional for a demo; add keys later if needed.
+
+databases:
+  - name: stmary-db
+    plan: free
+    postgresMajorVersion: "16"
