@@ -118,6 +118,13 @@ async function main() {
       `INSERT INTO group_members (group_id, user_id, role) VALUES ($1,$2,$3)
        ON CONFLICT (group_id, user_id) DO UPDATE SET role=EXCLUDED.role`,
       [groupId, userId, role]);
+    // Also grant the entitlement — this is what lets a member SEE a private
+    // group in their feed and POST to it. group_members alone isn't enough.
+    await db.query(
+      `INSERT INTO user_entitlements (user_id, object_type, object_id, granted_by)
+       VALUES ($1,'group',$2,'seed')
+       ON CONFLICT (user_id, object_type, object_id) DO NOTHING`,
+      [userId, groupId]);
   }
   // everyone is in Parish Life
   for (const u of [frank,jackie,bill,dominic,mike,matt,matej,carlos,mariam,...members])
