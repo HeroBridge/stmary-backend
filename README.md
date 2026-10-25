@@ -1,6 +1,6 @@
 # Community Platform
 
-A native, self-hosted alternative to the Disciple Media community framework. Built as a containerized Node.js/Express API on Postgres + PostGIS, designed to run on AWS ECS Fargate with full ownership of your data and event stream.
+A native, self-hosted media community framework. Built as a containerized Node.js/Express API on Postgres + PostGIS, designed to run on AWS ECS Fargate with full ownership of data and event stream.
 
 Covers five feature areas:
 
